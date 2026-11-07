@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content="高长宇的个人履历与项目作品。活动运营、会展执行与现场管理。" />
+    <title>高长宇 Gao Changyu | Event Operation</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="./assets/fonts/Antonio-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./assets/fonts/NotoSansSC-Subset.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./style.css" />
+    <script>document.documentElement.classList.add('js');</script>
+    <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.js" } }</script>
+    <script src="./app.js" defer></script>
+    <script type="module" src="./scene.js"></script>
+    <noscript><style>.opening{display:none!important}.js .entrance,.js [data-reveal]{opacity:1!important;transform:none!important}.hero,.works-section{height:auto!important;min-height:0!important}.hero-stage,.works-sticky{position:relative!important;height:auto!important}.works-intro{position:relative!important;left:auto!important;top:auto!important;width:100%!important;margin:50px 0}.works-track{position:relative!important;left:auto!important;top:auto!important;transform:none!important;flex-wrap:wrap!important}.work-item{width:100%!important}.works-hint,.works-controls,.section-rail{display:none!important}</style></noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#about">跳到个人介绍</a>
+
+    <div class="scene" aria-hidden="true">
+      <div class="scene-fallback"><svg viewBox="0 0 480 510" focusable="false"><defs><linearGradient id="fallback-spectrum" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f0d197"/><stop offset=".48" stop-color="#8de9ed"/><stop offset="1" stop-color="#b7a7ff"/></linearGradient></defs><g class="fallback-depth"><path d="M240 48 430 416H50ZM240 157 180 364H300Z"/><path d="M240 48v109M50 416l130-52M430 416l-130-52"/></g><circle class="fallback-orbit" cx="240" cy="250" r="174"/><circle class="fallback-orbit fallback-orbit-inner" cx="240" cy="250" r="116"/><path class="fallback-halo" d="M240 35 450 443H30ZM240 185 148 374H332Z"/><path class="fallback-front" d="M240 35 450 443H30ZM240 185 148 374H332Z"/><circle class="fallback-node" cx="240" cy="35" r="5"/><circle class="fallback-node" cx="450" cy="443" r="5"/><circle class="fallback-node" cx="30" cy="443" r="5"/></svg></div>
+      <canvas id="sculpture"></canvas>
+    </div>
+
+    <div class="opening" id="opening" role="dialog" aria-modal="true" aria-label="高长宇的姓名开场">
+      <div class="opening-top"><span>高长宇 / PERSONAL INDEX</span><button id="skip-opening" class="text-button">跳过<span data-icon="arrow-up-right" aria-hidden="true"></span></button></div>
+      <div class="opening-center">
+        <p class="opening-caption">EVENT OPERATION / ONSITE MANAGEMENT</p>
+        <div class="opening-name" aria-label="高长宇"><span aria-hidden="true">高</span><span aria-hidden="true">长</span><span aria-hidden="true">宇</span></div>
+        <p class="opening-english" aria-hidden="true">GAO CHANGYU</p>
+      </div>
+      <div class="opening-bottom"><span>苏州 / 2026</span><div class="opening-track" aria-hidden="true"><span></span></div><span>SCROLL TO EXPLORE</span></div>
+    </div>
+
+    <header class="site-header" id="site-header">
+      <a class="wordmark" href="#home" aria-label="高长宇，返回首页"><span class="wordmark-symbol" aria-hidden="true">g<span>.</span></span><span>GAO CHANGYU</span></a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#works">作品<span class="nav-index">01</span></a>
+        <a class="nav-about" href="#about">关于<span class="nav-index">02</span></a>
+        <a href="#method">方法<span class="nav-index">03</span></a>
+        <a class="nav-contact" href="#contact">联系<span class="nav-index">04</span></a>
+        <span class="nav-separator" aria-hidden="true"></span>
+        <button class="icon-button" id="toggle-motion" aria-label="暂停场景动画" aria-pressed="false" data-tooltip="暂停动画"><span data-icon="pause" aria-hidden="true"></span></button>
+        <button class="icon-button" id="replay-opening" aria-label="重播开场" data-tooltip="重播开场"><span data-icon="rotate-ccw" aria-hidden="true"></span></button>
+      </nav>
+    </header>
+
+    <aside class="section-rail" aria-label="章节进度">
+      <span class="rail-label" data-section-label>TOP</span>
+      <span class="rail-line"><span></span></span>
+      <span class="rail-count"><b>01</b><i>/</i><b>05</b></span>
+    </aside>
+
+    <main id="main-content">
+      <section class="hero" id="home" aria-labelledby="hero-title" data-section="TOP">
+        <div class="hero-stage">
+          <div class="hero-grid-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div class="hero-copy">
+            <p class="hero-topline entrance entrance-1"><span class="accent-dot" aria-hidden="true"></span>活动运营 / 会展项目执行</p>
+            <h1 class="hero-name" id="hero-title" aria-label="高长宇 Gao Changyu"><span class="title-mask"><span class="entrance entrance-2">GAO</span></span><span class="title-mask"><span class="entrance entrance-3">CHANGYU<span class="name-period">.</span></span></span></h1>
+            <div class="hero-identity entrance entrance-4"><span class="chinese-name">高长宇</span><p>把一场活动，<br />做成一次可被记住的现场。</p></div>
+            <a class="hero-link entrance entrance-5" href="#works"><span>进入作品</span><span class="circle-arrow" data-icon="arrow-down" aria-hidden="true"></span></a>
+          </div>
+          <div class="hero-side-note entrance entrance-5"><span>01 / 05</span><span>从想法到现场</span></div>
+          <div class="hero-meta entrance entrance-5"><span>江苏 · 苏州<span class="meta-divider" aria-hidden="true">/</span>EVENT OPERATION</span><span class="hero-edition">1999.04 — PRESENT</span></div>
+          <a class="chapter-teaser" href="#works"><span>SCROLL TO EXPLORE</span><span>作品 / 现场 / 交付</span><span data-icon="arrow-down" aria-hidden="true"></span></a>
+        </div>
+      </section>
+
+      <section class="works-section" id="works" aria-labelledby="works-title" data-section="WORKS">
+        <div class="works-sticky">
+          <div class="section-heading" data-reveal><span>02 / WORKS</span><span>项目作品</span></div>
+          <div class="works-intro" data-reveal>
+            <p class="section-kicker">SELECTED PROJECTS / 2021—2026</p>
+            <h2 id="works-title">把复杂的现场，<br /><em>做成清晰的结果。</em></h2>
+            <p class="section-note">六个项目，记录从前期筹备、资源协同到现场执行与结算交付的完整路径。</p>
+          </div>
+          <div class="works-status" data-reveal><span>PROJECT</span><b id="works-index">01</b><i>/ 06</i></div>
+          <div class="works-track" id="works-track">
+            <article class="work-item" data-work-index="01" data-reveal>
+              <div class="work-visual visual-blue"><img src="./assets/projects/project-01.png" alt="展览展位空间视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>43K</strong><small>㎡ / 2024</small></div>
+              <div class="work-info"><p>01 / 2024 · 43,000㎡</p><h3>第二届全国先进技术成果转化大会</h3><span>项目负责人 / 全周期执行</span><details class="work-detail"><summary>查看项目</summary><p>统筹开幕式、成果对接、路演发布、展览展示与交流研讨，完成材料收集、合同签署、搭建、执行、回款、结算与审计。</p></details></div>
+            </article>
+            <article class="work-item" data-work-index="02" data-reveal>
+              <div class="work-visual visual-cyan"><img src="./assets/projects/project-02.png" alt="大会舞台与会场视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>78K</strong><small>㎡ / 2025</small></div>
+              <div class="work-info"><p>02 / 2025 · 78,000㎡</p><h3>第三届先进技术成果转化大会</h3><span>项目负责人 / 独立操盘</span><details class="work-detail"><summary>查看项目</summary><p>围绕会、赛、需、研、演五大板块，完成军工集团、专精特新企业集群和高技术装备集群的对接、执行、回款与收尾。</p></details></div>
+            </article>
+            <article class="work-item" data-work-index="03" data-reveal>
+              <div class="work-visual visual-violet"><img src="./assets/projects/project-03.png" alt="展厅空间视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>0→1</strong><small>展厅 / 2023</small></div>
+              <div class="work-info"><p>03 / 2023 · 0→1</p><h3>苏州市双创中心展厅筹建</h3><span>展厅负责人 / 空间运维</span><details class="work-detail"><summary>查看项目</summary><p>负责展厅从零到一的筹备落地、内容迭代、设备维护、日常接待讲解和客户参访体验优化。</p></details></div>
+            </article>
+            <article class="work-item" data-work-index="04" data-reveal>
+              <div class="work-visual visual-lime"><img src="./assets/projects/project-04.png" alt="圆桌交流活动视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>CSV</strong><small>交流 / 训练营</small></div>
+              <div class="work-info"><p>04 / 2023 · 系列项目</p><h3>医疗大健康投融资交流会 & CSV 训练营</h3><span>策划执行 / 产业孵化</span><details class="work-detail"><summary>查看项目</summary><p>策划执行投融资交流会、CSV 高阶训练营、孵化器政策解读等活动，并联动大院大所与专家推进项目开发。</p></details></div>
+            </article>
+            <article class="work-item" data-work-index="05" data-reveal>
+              <div class="work-visual visual-red"><img src="./assets/projects/project-05.png" alt="论坛会场视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>CCF</strong><small>论坛 / 2023</small></div>
+              <div class="work-info"><p>05 / 2023 · 论坛</p><h3>CCF YOCSEF 青年计算机论坛</h3><span>活动执行 / 专家与资源对接</span><details class="work-detail"><summary>查看项目</summary><p>完成论坛的嘉宾、议程、场地、供应商、物料与现场执行协调，保证多方协作下的活动体验。</p></details></div>
+            </article>
+            <article class="work-item" data-work-index="06" data-reveal>
+              <div class="work-visual visual-orange"><img src="./assets/projects/project-06.png" alt="节庆活动装置视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>SEASON</strong><small>2021—23</small></div>
+              <div class="work-info"><p>06 / 2021—2023 · 节庆</p><h3>知行太极 · 剧场节庆活动季</h3><span>品牌活动运营 / 节点营销</span><details class="work-detail"><summary>查看项目</summary><p>围绕端午、万圣、春节等节点，结合展演与文创产品属性完成场馆活动、线上线下品牌宣传和资源库维护。</p></details></div>
+            </article>
+          </div>
+          <div class="works-hint" aria-hidden="true"><span class="hint-line"></span><span>SELECTED WORKS</span></div>
+          <div class="works-controls"><button class="icon-button" id="previous-work" aria-label="上一个项目" data-tooltip="上一个项目"><span data-icon="arrow-left" aria-hidden="true"></span></button><span class="work-progress"><span></span></span><button class="icon-button" id="next-work" aria-label="下一个项目" data-tooltip="下一个项目"><span data-icon="arrow-right" aria-hidden="true"></span></button></div>
+        </div>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title" data-section="ABOUT">
+        <div class="section-heading" data-reveal><span>03 / ABOUT</span><span>个人主张</span></div>
+        <div class="about-grid">
+          <div class="about-art-space" data-reveal aria-hidden="true"><p class="art-caption">Make it happen<span>.</span></p><span class="about-coordinate">31°18′N<br />120°37′E</span></div>
+          <div class="about-content">
+            <p class="section-kicker">A PRACTICE OF MOVING THINGS FORWARD</p>
+            <h2 id="about-title" data-reveal>让想法，<br />在现场发生。</h2>
+            <div class="about-introduction" data-reveal><p class="about-lede">我是高长宇，<br />一名把事情推进到底的活动运营者。</p><p class="about-text">从会展、政企会议到品牌活动与展厅运营，我把需求、团队与供应商连接起来，推进筹备、现场执行与交付复盘。关注整体，也照顾每一个影响体验的细节。</p></div>
+          </div>
+        </div>
+        <div class="metrics" data-reveal><div><strong>12.1</strong><span>万㎡ / 两届大会累计展陈面积</span></div><div><strong>229</strong><span>家 / 完成对接的企业与机构</span></div><div><strong>9</strong><span>所 / C9、G7 高校合作框架</span></div><div><strong>3</strong><span>年 / 会展与活动运营经验</span></div></div>
+      </section>
+
+      <section class="method" id="method" aria-labelledby="method-title" data-section="METHOD">
+        <div class="section-heading" data-reveal><span>04 / METHOD</span><span>工作方法</span></div>
+        <div class="method-intro"><p class="section-kicker">FROM BRIEF TO DELIVERY</p><h2 id="method-title" data-reveal>把每个环节，<br /><em>接成一条线。</em></h2></div>
+        <div class="capabilities">
+          <details class="capability" data-reveal><summary><span class="capability-number">01</span><span class="capability-label"><span class="capability-title">前期筹备</span><span class="capability-subtitle">需求梳理 / 策划协同 / 资源统筹</span></span><span class="capability-mark" data-icon="plus" aria-hidden="true"></span></summary><p class="capability-detail">从客户目标出发，梳理需求、方向、预算与排期，把创意、空间、人员和供应商放进同一张执行地图。</p></details>
+          <details class="capability" data-reveal><summary><span class="capability-number">02</span><span class="capability-label"><span class="capability-title">现场执行</span><span class="capability-subtitle">进度管理 / 多方协调 / 现场响应</span></span><span class="capability-mark" data-icon="plus" aria-hidden="true"></span></summary><p class="capability-detail">跟进搭建、物料与人员分工，协调现场执行进度，在突发状况出现时迅速判断并给出可落地的处理方案。</p></details>
+          <details class="capability" data-reveal><summary><span class="capability-number">03</span><span class="capability-label"><span class="capability-title">交付复盘</span><span class="capability-subtitle">结算审计 / 项目回款 / 复盘归档</span></span><span class="capability-mark" data-icon="plus" aria-hidden="true"></span></summary><p class="capability-detail">归集项目文件，跟进回款与财务结算，对接审计，完成项目复盘与结案报告，让一次交付沉淀成下一次的 SOP。</p></details>
+        </div>
+        <div class="experience-line"><span>2021</span><i></i><span>2023</span><i></i><span>2026</span><b>3 段经历 / 持续推进</b></div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title" data-section="CONTACT">
+        <div class="contact-inner"><div class="section-heading" data-reveal><span>05 / CONTACT</span><span>联系我</span></div><p class="section-kicker" data-reveal>HAVE A PROJECT IN MIND?</p><h2 id="contact-title" data-reveal>聊聊下一次<br /><em>要发生的现场。</em></h2><a class="contact-email" data-reveal href="mailto:1652198495@qq.com"><span>1652198495@qq.com</span><span class="circle-arrow" data-icon="arrow-up-right" aria-hidden="true"></span></a><div class="contact-meta" data-reveal><span>高长宇 / Gao Changyu</span><span>江苏 · 苏州</span><span>活动运营 / 会展执行</span></div></div>
+      </section>
+    </main>
+    <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-title">
+      <div class="project-topbar"><span id="project-position">01 / 06</span><span>PROJECT / 高长宇</span><button class="icon-button" id="close-project" aria-label="关闭项目详情" data-tooltip="关闭"><span data-icon="x" aria-hidden="true"></span></button></div>
+      <div class="project-layout"><div id="project-art" aria-hidden="true"></div><div class="project-copy"><p id="project-meta"></p><h2 id="project-title"></h2><p class="project-role" id="project-role"></p><div class="project-divider"></div><p class="project-description" id="project-description"></p></div></div>
+      <div class="project-footer"><button id="project-previous" class="project-step"><span data-icon="arrow-left" aria-hidden="true"></span><span>上一个项目</span></button><button id="project-next" class="project-step"><span>下一个项目</span><span data-icon="arrow-right" aria-hidden="true"></span></button></div>
+    </dialog>
+    <div class="page-progress" aria-hidden="true"><span id="page-progress"></span></div>
+    <p class="visually-hidden" id="animation-status" aria-live="polite"></p>
+  </body>
+</html>
