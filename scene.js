@@ -241,18 +241,21 @@ try {
   function composition(y, mobile) {
     const find = id => sections.find(section => section.id === id);
     const works = find('works'), about = find('about'), method = find('method'), contact = find('contact');
+    const worksEntry = works.top + Math.min(innerHeight * .2, works.height * .2);
+    const worksExit = Math.max(worksEntry + 1, works.top + works.height - Math.min(innerHeight * .35, works.height * .35));
+    const aboutEntry = Math.max(about.top - innerHeight * .2, worksExit + 1);
     const frames = mobile ? [
       [0,.56,.71,.11,-.15,.08,1], [heroTravel,.5,.47,.19,.4,1.2,.7],
-      [works.top+innerHeight*.2,.55,.53,.28,.6,2.6,.24],
-      [works.top+works.height-innerHeight,.5,.43,.3,.8,5.5,.16],
-      [about.top-innerHeight*.2,.62,.26,.13,.15,6.4,.8],
+      [worksEntry,.55,.53,.28,.6,2.6,.24],
+      [worksExit,.5,.43,.3,.8,5.5,.16],
+      [aboutEntry,.62,.26,.13,.15,6.4,.8],
       [method.top-innerHeight*.2,.75,.28,.15,.3,8,.22],
       [contact.top-innerHeight*.2,.65,.55,.25,.2,9.3,.22]
     ] : [
       [0,.73,.49,.18,-.08,-.2,1], [heroTravel,.61,.49,.26,.35,1.1,.8],
-      [works.top+innerHeight*.2,.5,.51,.3,.6,2.6,.24],
-      [works.top+works.height-innerHeight,.25,.5,.23,.8,5.5,.18],
-      [about.top-innerHeight*.2,.26,.48,.18,.08,6.4,1],
+      [worksEntry,.5,.51,.3,.6,2.6,.24],
+      [worksExit,.25,.5,.23,.8,5.5,.18],
+      [aboutEntry,.26,.48,.18,.08,6.4,1],
       [method.top-innerHeight*.2,.79,.38,.21,.3,8,.45],
       [contact.top-innerHeight*.2,.75,.53,.29,.2,9.3,.32]
     ];
@@ -283,7 +286,7 @@ try {
     const viewWidth = viewHeight*camera.aspect;
     group.position.set((x-.5)*viewWidth,(.5-y)*viewHeight,0);
     group.scale.setScalar(Math.min(viewHeight*size,viewWidth*(mobile ? .25 : .19))*lerp(.9,1,smooth(intro)));
-    group.rotation.set(rx+pointer.y*.09+Math.sin(elapsed*.23)*.035,ry+pointer.x*.16+Math.sin(elapsed*.19)*.12,Math.sin(elapsed*.17)*.025);
+    group.rotation.set(rx+pointer.y*.09+Math.sin(elapsed*.23)*.035,ry+pointer.x*.16+elapsed*.14+Math.sin(elapsed*.19)*.12,Math.sin(elapsed*.17)*.025);
     orbit.rotation.z = elapsed*.025;
     construction.rotation.y = Math.sin(elapsed*.15)*.045;
     depthLinks.forEach((link, index) => {
