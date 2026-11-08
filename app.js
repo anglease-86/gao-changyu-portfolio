@@ -10,6 +10,7 @@
   const fallback = document.querySelector('.scene-fallback');
   const about = document.getElementById('about');
   const works = document.getElementById('works');
+  const worksViewport = document.getElementById('works-viewport');
   const worksTrack = document.getElementById('works-track');
   const worksIndex = document.getElementById('works-index');
   const railLabel = document.querySelector('[data-section-label]');
@@ -26,15 +27,46 @@
   let worksTravel = 1;
   let pageTravel = 1;
   let headerHeight = 94;
-  let trackTravel = 0;
+  let loopPeriod = 0;
+  let carouselStep = 0;
+  let carouselOffset = 0;
+  let carouselFrame = 0;
+  let lastCarouselTime = 0;
+  let carouselVisible = false;
+  let carouselStarted = false;
+  let hoverPaused = false;
+  let focusPaused = false;
+  let dragging = false;
+  let dragPointerId = null;
+  let dragStartX = 0;
+  let dragLastX = 0;
+  let dragMoved = false;
+  let suppressClickUntil = 0;
+  let pauseUntil = 0;
   let sectionPositions = [];
   let activeSectionElement = null;
   let currentWork = 0;
   let projectTrigger = null;
-  const workItems = [...worksTrack.querySelectorAll('.work-item')];
+  const originalTrackGroup = worksTrack.querySelector('[data-track-group="original"]');
+  const workItems = [...originalTrackGroup.querySelectorAll('.work-item')];
+  const workCount = workItems.length;
   const projectDialog = document.getElementById('project-dialog');
-  const worksIntro = document.querySelector('.works-intro');
   const workProgress = document.querySelector('.work-progress span');
+
+  function makeTrackCopy() {
+    const copy = originalTrackGroup.cloneNode(true);
+    copy.removeAttribute('data-track-group');
+    copy.classList.add('is-loop-copy');
+    copy.setAttribute('aria-hidden', 'true');
+    copy.querySelectorAll('[data-reveal]').forEach(element => {
+      element.removeAttribute('data-reveal');
+      element.classList.remove('is-visible');
+    });
+    copy.querySelectorAll('summary').forEach(summary => { summary.tabIndex = -1; });
+    return copy;
+  }
+  worksTrack.prepend(makeTrackCopy());
+  worksTrack.append(makeTrackCopy());
 
   const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
   const later = (callback, delay) => {
@@ -102,16 +134,6 @@
     heroCopy.style.transform = motionPreference.matches ? '' : 'translate3d(0,' + (-heroProgress * 76) + 'px,0)';
     progress.style.transform = 'scaleX(' + clamp(y / pageTravel) + ')';
     const worksProgress = motionPreference.matches ? 0 : clamp((y - worksStart) / worksTravel);
-    worksTrack.style.transform = motionPreference.matches ? 'translate3d(0,-50%,0)' : 'translate3d(' + (-worksProgress * trackTravel) + 'px,-50%,0)';
-    const introFade = window.innerWidth > 760 ? 1 - clamp(worksProgress / .16) : 1;
-    worksIntro.style.opacity = String(introFade);
-    worksIntro.style.transform = 'translateX(' + (-40 * (1 - introFade)) + 'px)';
-    const itemCount = worksTrack.querySelectorAll('.work-item').length;
-    worksIndex.textContent = String(Math.min(itemCount, Math.round(worksProgress * (itemCount - 1)) + 1)).padStart(2, '0');
-    currentWork = Math.min(itemCount - 1, Math.round(worksProgress * (itemCount - 1)));
-    workProgress.style.transform = 'scaleX(' + worksProgress + ')';
-    document.getElementById('previous-work').disabled = worksProgress <= .001;
-    document.getElementById('next-work').disabled = worksProgress >= .999;
     chapterTeaser.hidden = y > heroTravel * .35;
     fallback.style.opacity = y > worksStart - window.innerHeight * .3 ? '0' : String(1 - heroProgress);
     header.classList.add('is-dark');
@@ -131,15 +153,21 @@
   }
 
   function measure() {
+    const previousPeriod = loopPeriod;
+    const phase = previousPeriod ? carouselOffset / previousPeriod : 0;
     heroTravel = Math.max(1, hero.offsetHeight - window.innerHeight);
     worksStart = works.offsetTop;
     worksTravel = Math.max(1, works.offsetHeight - window.innerHeight);
     headerHeight = header.offsetHeight;
+    document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
     pageTravel = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     sectionPositions = [...document.querySelectorAll('main [data-section]')].map(element => ({ element, id: element.id, top: element.offsetTop, height: element.offsetHeight }));
-    const lastItem = worksTrack.lastElementChild;
-    const trackLeft = worksTrack.offsetLeft;
-    trackTravel = Math.max(0, trackLeft + lastItem.offsetLeft - (window.innerWidth > 760 ? (window.innerWidth - lastItem.offsetWidth) / 2 : trackLeft));
+    const groupStyle = getComputedStyle(originalTrackGroup);
+    const gap = parseFloat(groupStyle.columnGap) || 0;
+    loopPeriod = originalTrackGroup.getBoundingClientRect().width;
+    carouselStep = (workItems[0]?.getBoundingClientRect().width || 0) + gap;
+    if (previousPeriod && loopPeriod) carouselOffset = phase * loopPeriod;
+    renderCarousel();
     updateScroll();
   }
 
@@ -157,12 +185,115 @@
     window.dispatchEvent(new CustomEvent('portfolio:motion', { detail: { paused } }));
   });
 
-  function moveWork(index) {
-    const next = clamp(index, 0, workItems.length - 1);
-    window.scrollTo({ top: worksStart + worksTravel * next / (workItems.length - 1), behavior: motionPreference.matches ? 'instant' : 'smooth' });
+  function renderCarousel() {
+    if (!loopPeriod || !carouselStep) return;
+    carouselOffset %= loopPeriod;
+    worksTrack.style.transform = 'translate3d(' + (-loopPeriod - carouselOffset) + 'px,0,0)';
+    const phase = (carouselOffset + loopPeriod) % loopPeriod;
+    const nextWork = Math.floor(phase / carouselStep) % workCount;
+    worksIndex.textContent = String(nextWork + 1).padStart(2, '0');
+    if (nextWork !== currentWork) currentWork = nextWork;
+    workProgress.style.transform = 'scaleX(' + (phase / loopPeriod) + ')';
   }
-  document.getElementById('previous-work').addEventListener('click', () => moveWork(currentWork - 1));
-  document.getElementById('next-work').addEventListener('click', () => moveWork(currentWork + 1));
+
+  function setCarouselOffset(offset) {
+    if (!loopPeriod) return;
+    carouselOffset = offset % loopPeriod;
+    renderCarousel();
+  }
+
+  function carouselFrameStep(time) {
+    carouselFrame = 0;
+    if (!carouselVisible || document.hidden || motionPreference.matches) {
+      lastCarouselTime = 0;
+      return;
+    }
+    const delta = lastCarouselTime ? Math.min((time - lastCarouselTime) / 1000, .05) : 0;
+    lastCarouselTime = time;
+    if (!hoverPaused && !focusPaused && !dragging && !projectDialog.open && time >= pauseUntil) {
+      setCarouselOffset(carouselOffset + delta * 36);
+    }
+    carouselFrame = requestAnimationFrame(carouselFrameStep);
+  }
+
+  function syncCarouselPlayback() {
+    const shouldRun = carouselVisible && !document.hidden && !motionPreference.matches;
+    if (shouldRun && !carouselFrame) {
+      lastCarouselTime = 0;
+      carouselFrame = requestAnimationFrame(carouselFrameStep);
+    } else if (!shouldRun && carouselFrame) {
+      cancelAnimationFrame(carouselFrame);
+      carouselFrame = 0;
+      lastCarouselTime = 0;
+    }
+  }
+
+  function moveWork(direction) {
+    setCarouselOffset(carouselOffset + direction * carouselStep);
+    pauseUntil = performance.now() + 1800;
+  }
+  document.getElementById('previous-work').addEventListener('click', () => moveWork(-1));
+  document.getElementById('next-work').addEventListener('click', () => moveWork(1));
+
+  worksViewport.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse') hoverPaused = true;
+  });
+  worksViewport.addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse') hoverPaused = false;
+  });
+  worksViewport.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || event.target.closest('button,a,summary,input,select,textarea')) return;
+    dragging = true;
+    dragPointerId = event.pointerId;
+    dragStartX = dragLastX = event.clientX;
+    dragMoved = false;
+    worksViewport.setPointerCapture(event.pointerId);
+    worksTrack.classList.add('is-dragging');
+    event.preventDefault();
+  });
+  worksViewport.addEventListener('pointermove', event => {
+    if (!dragging || event.pointerId !== dragPointerId) return;
+    const delta = event.clientX - dragLastX;
+    dragLastX = event.clientX;
+    if (Math.abs(event.clientX - dragStartX) > 4) dragMoved = true;
+    if (delta) setCarouselOffset(carouselOffset - delta);
+  });
+  function finishCarouselDrag(event) {
+    if (!dragging || event.pointerId !== dragPointerId) return;
+    dragging = false;
+    dragPointerId = null;
+    worksTrack.classList.remove('is-dragging');
+    pauseUntil = performance.now() + 1400;
+    if (dragMoved) suppressClickUntil = performance.now() + 350;
+  }
+  worksViewport.addEventListener('pointerup', finishCarouselDrag);
+  worksViewport.addEventListener('pointercancel', finishCarouselDrag);
+  worksViewport.addEventListener('dragstart', event => event.preventDefault());
+  worksViewport.addEventListener('focusin', event => {
+    if (!keyboardNavigation || !event.target.matches('.work-detail summary')) return;
+    focusPaused = true;
+    const index = Number(event.target.closest('.work-item').dataset.workIndex) - 1;
+    setCarouselOffset(index * carouselStep);
+  });
+  worksViewport.addEventListener('focusout', () => {
+    requestAnimationFrame(() => { focusPaused = worksViewport.contains(document.activeElement); });
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      carouselVisible = entries.some(entry => entry.isIntersecting);
+      if (carouselVisible && !carouselStarted) {
+        pauseUntil = performance.now() + 1000;
+        carouselStarted = true;
+      }
+      syncCarouselPlayback();
+    }, { threshold: 0 }).observe(worksViewport);
+  } else {
+    carouselVisible = true;
+    pauseUntil = performance.now() + 1000;
+    carouselStarted = true;
+    syncCarouselPlayback();
+  }
+  document.addEventListener('visibilitychange', syncCarouselPlayback);
 
   let projectIndex = 0;
   let keyboardNavigation = false;
@@ -180,20 +311,16 @@
   }
   if (typeof projectDialog.showModal === 'function') {
     document.documentElement.classList.add('has-project-dialog');
-    workItems.forEach((item, index) => {
-      const trigger = item.querySelector('summary');
-      trigger.addEventListener('focus', () => {
-        if (!keyboardNavigation || motionPreference.matches || projectDialog.open) return;
-        window.scrollTo({ top: worksStart + worksTravel * index / (workItems.length - 1), behavior: 'instant' });
-        worksTrack.parentElement.scrollLeft = 0;
-      });
-      trigger.addEventListener('click', event => {
-        event.preventDefault();
-        projectTrigger = trigger;
-        renderProject(index);
-        projectDialog.showModal();
-        document.body.classList.add('project-open');
-      });
+    worksTrack.addEventListener('click', event => {
+      const trigger = event.target.closest('.work-detail summary');
+      if (!trigger) return;
+      event.preventDefault();
+      if (performance.now() < suppressClickUntil) return;
+      const index = Number(trigger.closest('.work-item').dataset.workIndex) - 1;
+      projectTrigger = workItems[index].querySelector('summary');
+      renderProject(index);
+      projectDialog.showModal();
+      document.body.classList.add('project-open');
     });
     document.getElementById('close-project').addEventListener('click', () => projectDialog.close());
     projectDialog.addEventListener('click', event => { if (event.target === projectDialog) projectDialog.close(); });
@@ -232,6 +359,7 @@
   motionPreference.addEventListener('change', () => {
     if (motionPreference.matches && !opening.hidden) finishOpening(true);
     measure();
+    syncCarouselPlayback();
   });
   if ('ResizeObserver' in window) {
     new ResizeObserver(measure).observe(about);

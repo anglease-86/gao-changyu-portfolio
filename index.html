@@ -14,7 +14,7 @@
     <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.js" } }</script>
     <script src="./app.js" defer></script>
     <script type="module" src="./scene.js"></script>
-    <noscript><style>.opening{display:none!important}.js .entrance,.js [data-reveal]{opacity:1!important;transform:none!important}.hero,.works-section{height:auto!important;min-height:0!important}.hero-stage,.works-sticky{position:relative!important;height:auto!important}.works-intro{position:relative!important;left:auto!important;top:auto!important;width:100%!important;margin:50px 0}.works-track{position:relative!important;left:auto!important;top:auto!important;transform:none!important;flex-wrap:wrap!important}.work-item{width:100%!important}.works-hint,.works-controls,.section-rail{display:none!important}</style></noscript>
+    <noscript><style>.opening{display:none!important}.js .entrance,.js [data-reveal]{opacity:1!important;transform:none!important}.hero,.works-section{height:auto!important;min-height:0!important}.hero-stage,.works-sticky{position:relative!important;height:auto!important}.works-intro{position:relative!important;left:auto!important;top:auto!important;width:100%!important;margin:50px 0}.works-viewport{position:relative!important;inset:auto!important;transform:none!important;overflow:visible!important;margin-top:40px}.works-track{position:relative!important;left:auto!important;top:auto!important;transform:none!important;display:block!important}.works-track-group{display:flex!important;flex-direction:column!important;gap:40px!important;padding:0!important}.work-item{width:100%!important}.works-hint,.works-controls,.section-rail{display:none!important}</style></noscript>
   </head>
   <body>
     <a class="skip-link" href="#about">跳到个人介绍</a>
@@ -78,7 +78,9 @@
             <p class="section-note">六个项目，记录从前期筹备、资源协同到现场执行与结算交付的完整路径。</p>
           </div>
           <div class="works-status" data-reveal><span>PROJECT</span><b id="works-index">01</b><i>/ 06</i></div>
-          <div class="works-track" id="works-track">
+          <div class="works-viewport" id="works-viewport" role="region" aria-label="项目作品">
+            <div class="works-track" id="works-track">
+              <div class="works-track-group" data-track-group="original">
             <article class="work-item" data-work-index="01" data-reveal>
               <div class="work-visual visual-blue"><img src="./assets/projects/project-01.png" alt="展览展位空间视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>43K</strong><small>㎡ / 2024</small></div>
               <div class="work-info"><p>01 / 2024 · 43,000㎡</p><h3>2023年国际能源变革论坛——能源技术创新分论坛</h3><span>项目负责人 / 全周期执行</span><details class="work-detail"><summary>查看项目</summary><p>统筹开幕式、成果对接、路演发布、展览展示与交流研讨，完成材料收集、合同签署、搭建、执行、回款、结算与审计。</p></details></div>
@@ -103,6 +105,8 @@
               <div class="work-visual visual-orange"><img src="./assets/projects/project-06.png" alt="节庆活动装置视觉示意" width="1200" height="1000" loading="lazy" /><span class="visual-label">空间视觉示意</span><strong>SEASON</strong><small>2021—23</small></div>
               <div class="work-info"><p>06 / 2021—2023 · 节庆</p><h3>知行太极 · 剧场节庆活动季</h3><span>品牌活动运营 / 节点营销</span><details class="work-detail"><summary>查看项目</summary><p>围绕端午、万圣、春节等节点，结合展演与文创产品属性完成场馆活动、线上线下品牌宣传和资源库维护。</p></details></div>
             </article>
+              </div>
+            </div>
           </div>
           <div class="works-hint" aria-hidden="true"><span class="hint-line"></span><span>SELECTED WORKS</span></div>
           <div class="works-controls"><button class="icon-button" id="previous-work" aria-label="上一个项目" data-tooltip="上一个项目"><span data-icon="arrow-left" aria-hidden="true"></span></button><span class="work-progress"><span></span></span><button class="icon-button" id="next-work" aria-label="下一个项目" data-tooltip="下一个项目"><span data-icon="arrow-right" aria-hidden="true"></span></button></div>
